@@ -1,0 +1,177 @@
+/* 文章和页面样式表 */
+.post-header{margin-bottom:var(--postGlobalMargin)}
+.post-title{font-size:var(--postH1Size);line-height:2;margin-bottom:var(--postGlobalMargin)}
+.post-info{color:var(--entryConColor);font-size:14px}
+.post-info .infoLeft{margin-right:20px}
+.post-info .iconfont{margin-right:5px}
+#qrcode{position:absolute;z-index:10;visibility:hidden;width:148px;height:148px;border-radius:5px;background:var(--bgColor);box-shadow:0 0 10px var(--boxShowColor);opacity:0;transition:all .5s cubic-bezier(.4,.01,.165,.99);-webkit-transform:translate(310px,10px);transform:translate(310px,10px);justify-content:center;align-items:center}
+.opQrcode:hover~#qrcode{visibility:visible;opacity:1}
+.post-main{line-height:2}
+.post-main figure,.post-main p{margin-bottom:var(--postGlobalMargin);max-width:100%}
+.post-main figure{text-align:left}
+.post-main img{height:auto;max-width:100%;display:block;margin:0 auto}
+.post-main h1,.post-main h2,.post-main h3,.post-main h4,.post-main h5,.post-main h6{margin-bottom:var(--postGlobalMargin);font-weight:700;position:relative;padding:0 0 0 12px}
+.post-main h1{font-size:22px}
+.post-main h2{font-size:20px}
+.post-main h3{font-size:18px}
+.post-main h4,.post-main h5,.post-main h6{font-size:16px}
+.post-main h2::before{position:absolute;top:4px;bottom:4px;left:0;margin:auto;width:8px;border-radius:10px;background:var(--themeColor);content:""}
+.post-main h3::before{position:absolute;top:8px;bottom:8px;left:0;margin:auto;width:4px;border-radius:10px;background:var(--themeColor);content:""}
+.post-main h4::before{position:absolute;top:12px;bottom:12px;left:0;margin:auto;width:8px;border-radius:10px;background:var(--themeColor);content:""}
+.post-main h5::before{position:absolute;top:14px;bottom:14px;left:0;margin:auto;width:4px;border-radius:10px;background:var(--themeColor);content:""}
+.post-main ol{counter-reset:sectioncounter}
+.post-main ol,.post-main ul{margin-bottom:var(--postGlobalMargin);padding-left:var(--postGlobalMargin)}
+.post-main ol li,.post-main ul li{list-style:inherit;color:var(--entryConColor)}
+figcaption{color:var(--entryConColor);font-size:14px;text-align:center}
+blockquote p{margin-bottom:10px!important}
+.post-main blockquote{margin-bottom:30px;padding:10px 20px 20px;background-color:var(--footerColor);border-radius:5px}
+.post-main blockquote cite{color:var(--entryConColor);font-style:normal}
+.post-main blockquote::before{content:"\e61d";font-family:iconfont!important;font-size:24px;font-style:normal;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+.post-main hr{margin-bottom:var(--postGlobalMargin);border:none;background:rgb(15 15 15 / 71%);height:2px;border-radius:5px;}
+.post-main video{max-width:100%;height:auto;margin-bottom:var(--postGlobalMargin)}
+.post-main iframe{width:100%;height:calc(var(--headSearchWidth)*.5625);margin-bottom:var(--postGlobalMargin)}
+.post-main .wp-block-table{width:100%;overflow-x:auto}
+.post-main .wp-block-table table{width:100%;border-collapse:collapse;border-spacing:0}
+.post-main .wp-block-table td,.wp-block-table th,.wp-block-table tr{overflow:hidden;padding:6px 12px;border:1px solid var(--borderColor);vertical-align:middle;white-space:nowrap}
+.post-main .wp-block-table thead tr {background: var(--footerColor);}
+.post-main a{border-bottom:1px solid var(--themeColor)}
+.post-main a:hover{box-shadow:inset 0 -2px var(--themeColor);-webkit-transition:box-shadow .2s linear;transition:box-shadow .2s linear}
+.post-tag{margin-bottom:var(--postGlobalMargin);width:100%;padding:14px 0;border-top:1px solid var(--borderColor);border-bottom:1px solid var(--borderColor);color:var(--entryConColor);font-size:14px;line-height:2}
+.post-tag a{display:inline-block;padding:2px 10px;background:var(--footerColor);margin:4px 6px;border-radius:18px}
+.post-tag a:hover{color:var(--themeColor)}
+.post-navigation{justify-content:space-between;font-size:14px;margin-bottom:var(--postGlobalMargin)}
+.nav-box{width:calc(50% - 8px);position:relative}
+.nav-box a{display:block;padding:30px 14px;background-position:50%;background-size:cover;background-repeat:no-repeat;color:var(--ButtonFontColor);border-radius:5px}
+.nav-box a:after{position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.46);content:"";border-radius:5px}
+.post-navigation .next{text-align:right}
+.prev_info{z-index:1;position:relative}
+.prev_info p{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.related-post{margin-top:calc(var(--postGlobalMargin)*2)}
+.attach-title{display:block;font-size:var(--postH3Size);font-weight:700;border-bottom:2px solid var(--borderColor);padding-bottom:14px;margin-bottom:var(--postGlobalMargin)}
+code::-webkit-scrollbar-thumb{width:8px;border-radius:2em;background:#374e70}
+
+
+/* 以下新增 */
+/* 复制按钮 */
+.copy-button { position: absolute; top: 5px; right: 10px; z-index: 10; background-color: transparent; color: #d9d9d9; border: none; text-align: center; font-size: 14px; font-weight: bold; cursor: pointer; } .copied { color: #35cd4b; font-size: 12px; }
+/* markdown警告框 */
+blockquote{border-left:4px solid #f8f8f8 !important;padding:20px !important;display:flex !important;align-items:flex-start !important;flex-direction:column !important;}blockquote:before,blockquote:after{content:open-quote;}blockquote.warning-border:before,blockquote.warning-border:after,blockquote.note-border:before,blockquote.note-border:after,blockquote.tip-border:before,blockquote.tip-border:after,blockquote.caution-border:before,blockquote.caution-border:after,blockquote.important-border:before,blockquote.important-border:after{content:none !important;}.warning-border{border-left-color:#9a6700 !important;}.note-border{border-left-color:#0969da !important;}.tip-border{border-left-color:#1f883d !important;}.caution-border{border-left-color:#cf222e !important;}.important-border{border-left-color:#8250df !important;}
+/* 单行代码 */
+code {background-color: rgba(220, 220, 220, 0.5); border-radius: 4px; padding: 3px 4px;font-size: 0.8em; color: #000;}
+/* 文章结束 */
+.article-end-symbol p {font-size: 15px; text-align: center; margin: 30px 0; color: #666; font-weight: 300; line-height: 1;}
+/* 文章密码 */
+form.post-password-form{max-width:800px;margin:20px auto;padding:20px;border:0 solid #ddd;text-align:center;background-color:rgba(255,255,255,0.0);border-radius:10px;position:relative;padding-top:40px}form.post-password-form img{max-width:350px;margin:0 auto 30px}form.post-password-form p{margin-bottom:40px}form.post-password-form p label input,form.post-password-form p input[type="submit"]{font-size:16px;padding:8px 12px;border:1px solid #ddd;border-radius:5px}form.post-password-form p input[type="submit"]{background-color:#2b71d0;color:#fff;padding:8px 16px;border:none;cursor:pointer;border-radius:10px;margin-bottom:400px}
+
+
+/* 分享模块 */
+.article-share {
+    margin-top: 30px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+.article-share p {
+    margin: 0 0 10px;
+    font-size: 16px;
+}
+.article-share button {
+    padding: 5px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+.article-share button:hover {
+    transform: translateY(-2px);
+}
+.article-share button:active,
+.article-share button.copied {
+    transform: translateY(1px);
+}
+
+
+/* 代码块顶部中间语言类型 */
+.language-tag {
+  font-size: 12px;
+  font-weight: bold;
+  color: #7f848e;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 4px 8px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  position: absolute;
+  top: 0;
+  left: 50%; /* 设置为50%以将其移动到容器的中间 */
+  transform: translateX(-50%); /* 使用translateX将其向左移动自身宽度的50%以居中 */
+  z-index: 1;
+}
+
+/* 目录样式 */
+#toc-container {
+    display: block; /* 如果您希望目录默认显示，可以将none改为block */
+    position: fixed;
+    left: calc((100% - 1060px) / 2 - 275px); /* 屏幕宽度减去.container宽度的一半，再减去#toc-container的宽度 */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 275px;
+    background-color: rgba(0,0,0,0.03);
+    padding: 20px 10px;
+    box-sizing: border-box;
+    z-index: 9999;
+    transition: width 0.3s ease;
+    border-radius: 10px;
+    font-size: 15px;
+    max-height: 60vh; /* 设置最大高度，例如视口高度的80% */
+    overflow-y: auto; /* 内容超出时显示滚动条 */
+}
+.toc-title {
+    text-align: center;
+    font-weight: normal;
+    margin-bottom: 20px; /* 已有的下边距 */
+    padding-bottom: 10px; /* 增加的内边距 */
+    border-bottom: 1px solid #ccc; /* 在标题下方增加一条灰色的分割线 */
+}
+
+#toc-content .toc li {
+    transition: all 0.2s ease;
+}
+
+#toc-content .toc li a {
+    display: block; /* 使链接占据整行 */
+    padding: 5px 10px; /* 设置固定的内部空间 */
+    border-radius: 4px; /* 圆角 */
+    transition: background-color 0.3s ease; /* 过渡效果 */
+}
+
+#toc-content .toc li a:hover {
+    background-color: rgba(43, 113, 208, 0.5); /* 调整背景颜色为半透明的蓝色 */
+}
+
+/* 当前阅读的目录项样式 */
+#toc-content .toc li.current a {
+	  font-weight: bold;
+     color: #2b71d0; /* 设置文字颜色为 */
+}
+
+
+/* 面包屑导航样式 */
+.breadcrumbs {
+    margin-bottom: 20px; /* 增加面包屑导航与标题之间的间距 */
+    font-size: 14px;
+    padding-bottom: 15px; /* 添加底部内边距 */
+    border-bottom: 1px solid #ddd; /* 添加底部边框作为分割线 */
+}
+.breadcrumbs a,
+#crumbs a {
+    text-decoration: none;
+}
+.breadcrumbs a:hover,
+#crumbs a:hover {
+    text-decoration: underline;
+    color: var(--themeColor); /* 鼠标悬停时分类链接显示蓝色 */
+}
+.breadcrumbs .current {
+    color: #777;
+}
