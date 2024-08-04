@@ -1,63 +1,79 @@
-// 配置项
+//文章目录JS
 const config = {
-  headingLevels: [2, 3, 4], // 需要在目录中显示的标题级别
-  indentSize: 20, // 缩进距离
-  scrollOffset: 20, // 滚动高亮偏移量
+  headingLevels: [2, 3],
+  scrollOffset: 20,
 };
-let headings;
-let tocItems;
-function throttle(fn) {
-  let waiting = false;
+
+let headings, tocItems, headingOffsets, isMouseOverToc = false;
+
+function throttle(fn, wait = 100) {
+  let lastTime = 0;
   return function (...args) {
-    if (!waiting) {
-      requestAnimationFrame(() => {
-        fn.apply(this, args);
-        waiting = false;
-      });
-      waiting = true;
+    const now = new Date().getTime();
+    if (now - lastTime >= wait) {
+      lastTime = now;
+      fn.apply(this, args);
     }
   };
 }
+
 function generateTocHtml() {
   const counters = new Map();
-  config.headingLevels.forEach((level) => counters.set(level, 0));
+  config.headingLevels.forEach(level => counters.set(level, 0));
+
   let html = '';
   headings.forEach((heading, index) => {
     const level = parseInt(heading.tagName.slice(1));
     if (config.headingLevels.includes(level)) {
       const counter = counters.get(level);
       counters.set(level, counter + 1);
-      config.headingLevels.filter((l) => l > level).forEach((l) => counters.set(l, 0));
+      config.headingLevels.filter(l => l > level).forEach(l => counters.set(l, 0));
+
       const number = config.headingLevels
-        .filter((l) => l <= level)
-        .map((l) => counters.get(l))
+        .filter(l => l <= level)
+        .map(l => counters.get(l))
         .join('.');
+
       heading.id = `heading-${level}-${index}`;
-      html += `<li class="toc-level-${level}" style="margin-left: ${(level - 2) * config.indentSize}px">
-        <a href="#${heading.id}">${number} ${heading.textContent}</a>
+      html += `<li class="toc-level-${level}">
+        <a href="#${heading.id}"><span class="toc-number">${number}</span> ${heading.textContent}</a>
       </li>`;
     }
   });
-  return html ? `<h3 class="toc-title">文章目录</h3><ul class="toc">${html}</ul>` : '';
+
+  return html ? `<ul class="toc">${html}</ul>` : '';
 }
-function updateTocHighlightingOptimized(scrollPosition, headingOffsets) {
-  let currentActiveIndex;
+
+function updateTocHighlightingAndVisibility() {
+  const scrollPosition = window.scrollY + config.scrollOffset;
+  let currentIndex = -1;
+
   for (let i = 0; i < headingOffsets.length; i++) {
-    const offset = headingOffsets[i];
-    const nextOffset = headingOffsets[i + 1] || Infinity;
-    if (scrollPosition >= offset - config.scrollOffset && scrollPosition < nextOffset - config.scrollOffset) {
-      currentActiveIndex = i;
+    if (scrollPosition >= headingOffsets[i]) {
+      currentIndex = i;
+    } else {
       break;
     }
   }
-  if (currentActiveIndex !== undefined) {
-    tocItems.forEach((item, index) => {
-      item.classList.toggle('current', index === currentActiveIndex);
-    });
+
+  tocItems.forEach((item, idx) => {
+    const isCurrent = idx === currentIndex;
+    item.classList.toggle('current', isCurrent);
+    item.style.opacity = isCurrent || isMouseOverToc ? '1' : '0.7';
+  });
+
+  if (currentIndex !== -1 && !isMouseOverToc) {
+    const currentItem = tocItems[currentIndex];
+    const itemRect = currentItem.getBoundingClientRect();
+    const containerRect = document.getElementById('toc-container').getBoundingClientRect();
+    if (itemRect.top < containerRect.top || itemRect.bottom > containerRect.bottom) {
+      document.getElementById('toc-container').scrollTop += (itemRect.top - containerRect.top) - containerRect.height / 2 + itemRect.height / 2;
+    }
   }
 }
+
 document.addEventListener('DOMContentLoaded', () => {
-  headings = Array.from(document.querySelectorAll('.post-main h2, .post-main h3, .post-main h4'));
+  headings = Array.from(document.querySelectorAll('.post-main h2, .post-main h3'));
   const tocContainer = document.getElementById('toc-container');
   const tocContent = document.getElementById('toc-content');
 
@@ -65,28 +81,32 @@ document.addEventListener('DOMContentLoaded', () => {
     console.error('目录容器或内容元素不存在');
     return;
   }
-  window.addEventListener('load', () => {
-    const headingOffsets = headings.map((heading) => heading.getBoundingClientRect().top + window.scrollY);
-    const tocHtml = generateTocHtml();
-    if (tocHtml) {
-      tocContent.innerHTML = tocHtml;
-      tocItems = Array.from(tocContent.querySelectorAll('.toc li'));
-      let tocOffsetTop = tocContent.getBoundingClientRect().top + window.scrollY;
-      const updateTocPositionAndHighlightingOptimized = throttle(() => {
-        const scrollTop = window.scrollY || window.pageYOffset;
-        if (scrollTop > tocOffsetTop) {
-          tocContainer.classList.add('floating');
-        } else {
-          tocContainer.classList.remove('floating');
-        }
-        updateTocHighlightingOptimized(scrollTop, headingOffsets);
-      }, 100);
-      window.addEventListener('scroll', updateTocPositionAndHighlightingOptimized);
-    } else {
-      tocContainer.style.display = 'none';
-    }
-  });
+
+  headingOffsets = headings.map(heading => heading.getBoundingClientRect().top + window.scrollY);
+  const tocHtml = generateTocHtml();
+
+  if (tocHtml) {
+    tocContent.innerHTML = tocHtml;
+    tocItems = Array.from(tocContent.querySelectorAll('.toc li'));
+
+    window.addEventListener('scroll', throttle(updateTocHighlightingAndVisibility, 100));
+
+    tocContainer.addEventListener('mouseenter', () => {
+      isMouseOverToc = true;
+      tocItems.forEach(item => item.style.opacity = '1');
+    });
+
+    tocContainer.addEventListener('mouseleave', () => {
+      isMouseOverToc = false;
+      updateTocHighlightingAndVisibility();
+    });
+
+    updateTocHighlightingAndVisibility();
+  } else {
+    tocContainer.style.display = 'none';
+  }
 });
+
 
 //代码复制按钮JS
 document.addEventListener('DOMContentLoaded', (event) => {
