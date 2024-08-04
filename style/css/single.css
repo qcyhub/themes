@@ -108,52 +108,88 @@ form.post-password-form{max-width:800px;margin:20px auto;padding:20px;border:0 s
   z-index: 1;
 }
 
-/* 目录样式 */
+/* 文章目录样式 */
 #toc-container {
-    display: block; /* 如果您希望目录默认显示，可以将none改为block */
-    position: fixed;
-    left: calc((100% - 1060px) / 2 - 275px); /* 屏幕宽度减去.container宽度的一半，再减去#toc-container的宽度 */
-    top: 50%;
-    transform: translateY(-50%);
-    width: 275px;
-    background-color: rgba(0,0,0,0.03);
-    padding: 20px 10px;
-    box-sizing: border-box;
-    z-index: 9999;
-    transition: width 0.3s ease;
-    border-radius: 10px;
-    font-size: 15px;
-    max-height: 60vh; /* 设置最大高度，例如视口高度的80% */
-    overflow-y: auto; /* 内容超出时显示滚动条 */
+  display: block;
+  position: fixed;
+  right: calc((100% - 1060px) / 2 - 300px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 275px;
+  padding: 20px 10px;
+  box-sizing: border-box;
+  z-index: 9999;
+  font-size: 13px;
+  max-height: 60vh;
+  overflow-y: auto;
 }
-.toc-title {
-    text-align: center;
-    font-weight: normal;
-    margin-bottom: 20px; /* 已有的下边距 */
-    padding-bottom: 10px; /* 增加的内边距 */
-    border-bottom: 1px solid #ccc; /* 在标题下方增加一条灰色的分割线 */
+
+#toc-content .toc {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
 }
 
 #toc-content .toc li {
-    transition: all 0.2s ease;
+  margin-bottom: 10px;
+  position: relative;
+  transition: opacity 0.3s ease, font-weight 0.3s ease;
+}
+
+#toc-content .toc li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 15px;
+  height: 2px;
+  background-color: currentColor;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.7;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+#toc-content .toc li.toc-level-2::before {
+  width: 15px;
+}
+
+#toc-content .toc li.toc-level-3::before {
+  width: 10px;
 }
 
 #toc-content .toc li a {
-    display: block; /* 使链接占据整行 */
-    padding: 5px 10px; /* 设置固定的内部空间 */
-    border-radius: 4px; /* 圆角 */
-    transition: background-color 0.3s ease; /* 过渡效果 */
+  display: block;
+  padding: 5px 20px;
+  text-decoration: none;
+  color: inherit;
+  transition: font-weight 0.3s ease;
 }
 
-#toc-content .toc li a:hover {
-    background-color: rgba(43, 113, 208, 0.5); /* 调整背景颜色为半透明的蓝色 */
+#toc-content .toc li.current::before,
+#toc-content .toc li:hover::before {
+  height: 4px;
+  opacity: 1;
 }
 
-/* 当前阅读的目录项样式 */
-#toc-content .toc li.current a {
-	  font-weight: bold;
-     color: #2b71d0; /* 设置文字颜色为 */
+#toc-content .toc li.current a,
+#toc-content .toc li:hover a {
+  font-weight: bold;
 }
+
+#toc-content .toc-number {
+  display: none;
+}
+
+#toc-container::-webkit-scrollbar {
+  display: none;
+}
+
+#toc-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 
 
 /* 面包屑导航样式 */
